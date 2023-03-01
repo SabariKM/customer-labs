@@ -8,10 +8,15 @@ export const Wrapper = {Div: styled.div`
     top: 0;
     right: 0;
     z-index: 2;
-    transform: ${props => props.isClicked ? 'scale(1,1)' : 'scale(0,1)'};
-    transform-origin: right;
-    transition: all 3s ease;
     overflow: auto;
+
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: gray;
+        border-radius: 5px;
+    }
 `}
 
 export const InputField = {Div: styled.div`
@@ -107,6 +112,17 @@ export const Cancel = {Button: styled.button`
 export const Dropdown = {Div: styled.div`
     display: flex;
     align-items: center;
+    position: relative;
+    &:before {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        top: 33px;
+        left: -5px;
+        background-color: ${({traitsCheck}) => traitsCheck === 'First Name' || traitsCheck === 'Last Name' ? 'lightgreen' : 'red'};
+        border-radius: 50%;
+    }
 `}
 
 export const RemoveIcon = {Div: styled.div`
