@@ -43,6 +43,19 @@ const SavingSegment = ({removeSegment, isClicked}) => {
         }
     };
 
+    const onChangeHandler = (event, id) => {
+        let itemValue = (event.target.value).toLowerCase().split(' ').join('_');
+        const changedValue = renderList.map(item => {
+            if(item.label === id) {
+              return {...item, label : event.target.value, value : itemValue};
+            }
+            else {
+              return item
+            }
+          });
+            setRenderList(changedValue);
+    }
+
     useEffect(() => {
         let renderListNames = renderList.map(list => list.label)
         let filtered = schemaList.filter((list) => !renderListNames.includes(list.label));
@@ -93,7 +106,7 @@ const SavingSegment = ({removeSegment, isClicked}) => {
         <InputField.Div>
             {renderList.map((item) => (
                 <Dropdown.Div key={item.label} traitsCheck={item.label}>
-                    <StyledSelect.Select>
+                    <StyledSelect.Select onChange={event => onChangeHandler(event, item.label)}>
                         <option>{item.label}</option>
                         {filteredList.map((filteredItem) => (
                         <option key={filteredItem.label}>{filteredItem.label}</option>
