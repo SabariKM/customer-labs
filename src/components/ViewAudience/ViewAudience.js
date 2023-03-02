@@ -15,7 +15,6 @@ const ViewAudience = () => {
         setIsClicked(false);
     }
 
-
   return (
     <>
         {isClicked && <Outer.Div onClick={removeSegmentHandler}/>}

@@ -7,18 +7,18 @@ import { AiOutlineMinus } from "react-icons/ai";
 
 const SavingSegment = ({removeSegment, isClicked}) => {
     const schemaList = [
-        {name: "First Name", value: "first_name"},
-        {name: "Last Name", value: "last_name"},
-        {name: "Gender", value: "gender"},
-        {name: "Age", value: "age"},
-        {name: "Account Name", value: "account_name"},
-        {name: "City", value: "city"},
-        {name: "State", value: "state"}
+        {label: "First Name", value: "first_name"},
+        {label: "Last Name", value: "last_name"},
+        {label: "Gender", value: "gender"},
+        {label: "Age", value: "age"},
+        {label: "Account Name", value: "account_name"},
+        {label: "City", value: "city"},
+        {label: "State", value: "state"}
     ];
 
     const initialList = [
-        {name: "First Name", value: "first_name"},
-        {name: "Account Name", value: "account_name"}
+        {label: "First Name", value: "first_name"},
+        {label: "Account Name", value: "account_name"}
     ];
 
     const [renderList, setRenderList] = useState(initialList);
@@ -27,8 +27,8 @@ const SavingSegment = ({removeSegment, isClicked}) => {
     const [segmentName, setSegmentName] = useState("");
 
     const addSchemaHandler = () => {
-        let isCheckRenderList = renderList.map((item) => item.name === onChangeValue);
-        let isInputsval = schemaList.filter((item) => item.name === onChangeValue);
+        let isCheckRenderList = renderList.map((item) => item.label === onChangeValue);
+        let isInputsval = schemaList.filter((item) => item.label === onChangeValue);
 
         if (
           !isCheckRenderList.includes(true) &&
@@ -37,15 +37,15 @@ const SavingSegment = ({removeSegment, isClicked}) => {
          ) {
             setRenderList([
             ...renderList,
-            { name: isInputsval[0].name, value: isInputsval[0].value }
+            { label: isInputsval[0].label, value: isInputsval[0].value }
             ]);
             setOnChangeValue("");
         }
     };
 
     useEffect(() => {
-        let renderListNames = renderList.map(list => list.name)
-        let filtered = schemaList.filter((list) => !renderListNames.includes(list.name));
+        let renderListNames = renderList.map(list => list.label)
+        let filtered = schemaList.filter((list) => !renderListNames.includes(list.label));
         setFilteredList(filtered);
         }, [renderList]
     );
@@ -53,7 +53,7 @@ const SavingSegment = ({removeSegment, isClicked}) => {
     const submitHandler = () => {
         let schemas = renderList.map(list => {
                         let obj = {};
-                        obj[list.value]=list.name
+                        obj[list.value]=list.label
                         return obj;
                     });
         let data = {
@@ -92,11 +92,11 @@ const SavingSegment = ({removeSegment, isClicked}) => {
         </InputField.Div>
         <InputField.Div>
             {renderList.map((item) => (
-                <Dropdown.Div key={item.name} traitsCheck={item.name}>
+                <Dropdown.Div key={item.label} traitsCheck={item.label}>
                     <StyledSelect.Select>
-                        <option>{item.name}</option>
+                        <option>{item.label}</option>
                         {filteredList.map((filteredItem) => (
-                        <option key={filteredItem.name}>{filteredItem.name}</option>
+                        <option key={filteredItem.label}>{filteredItem.label}</option>
                         ))}
                     </StyledSelect.Select>
                     <RemoveIcon.Div>
@@ -112,7 +112,7 @@ const SavingSegment = ({removeSegment, isClicked}) => {
             >
                 <option>Add Schema to segment</option>
                 {schemaList.map((list) => (
-                <option key={list.value}>{list.name}</option>
+                <option key={list.value}>{list.label}</option>
                 ))}
             </StyledSelect.Select>
         </InputField.Div>
