@@ -1,19 +1,19 @@
 import React from 'react'
 import Header from '../Header/Header';
 import { Wrapper, InputField, StyledLabel, StyledInput, FlexDiv, Traits, StyledSelect,
-        AddSchema, SubmitField, Submit, Cancel, Dropdown, RemoveIcon } from './SavingSegment.Styled';
+        AddSchema, SubmitField, Submit, Cancel, RemoveIcon, Dropdown } from './SavingSegment.Styled';
 import { useState, useEffect } from 'react';
 import { AiOutlineMinus } from "react-icons/ai";
 
 const SavingSegment = ({removeSegment, isClicked}) => {
     const schemaList = [
-        {name: "First Name", value: "first_name", traits: "user"},
-        {name: "Last Name", value: "last_name", traits: "user"},
-        {name: "Gender", value: "gender", traits: "group"},
-        {name: "Age", value: "age", traits: "group"},
-        {name: "Account Name", value: "account_name", traits: "group"},
-        {name: "City", value: "city", traits: "group"},
-        {name: "State", value: "state", traits: "group"}
+        {name: "First Name", value: "first_name"},
+        {name: "Last Name", value: "last_name"},
+        {name: "Gender", value: "gender"},
+        {name: "Age", value: "age"},
+        {name: "Account Name", value: "account_name"},
+        {name: "City", value: "city"},
+        {name: "State", value: "state"}
     ];
 
     const initialList = [
@@ -67,9 +67,13 @@ const SavingSegment = ({removeSegment, isClicked}) => {
             mode: "no-cors",
             body: JSON.stringify(data),
             headers: {"Content-type":"application/json;charset=UTF-8"},
-        })
+        });
+
+        setRenderList(initialList);
+        setSegmentName("");
+        setOnChangeValue("");
     }
-    console.log(renderList);
+
   return (
     <Wrapper.Div isClicked={isClicked}>
         <Header headerValue={'Saving Segment'} />
@@ -87,7 +91,7 @@ const SavingSegment = ({removeSegment, isClicked}) => {
             </FlexDiv.Div>
         </InputField.Div>
         <InputField.Div>
-            {renderList.map((item, index) => (
+            {renderList.map((item) => (
                 <Dropdown.Div key={item.name} traitsCheck={item.name}>
                     <StyledSelect.Select>
                         <option>{item.name}</option>
