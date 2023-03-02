@@ -17,6 +17,16 @@ export const Wrapper = {Div: styled.div`
         background-color: gray;
         border-radius: 5px;
     }
+
+    @media (max-width: 1024px) {
+        width: 40%;
+    }
+    @media (max-width: 768px) {
+        width: 50%;
+    }
+    @media (max-width: 768px) {
+        width: 60%;
+    }
 `}
 
 export const InputField = {Div: styled.div`
