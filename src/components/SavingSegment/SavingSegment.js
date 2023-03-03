@@ -23,37 +23,35 @@ const SavingSegment = ({removeSegment, isClicked}) => {
 
     const [renderList, setRenderList] = useState(initialList);
     const [filteredList, setFilteredList] = useState(schemaList);
-    const [onChangeValue, setOnChangeValue] = useState("");
+    const [schemaName, setSchemaName] = useState("");
     const [segmentName, setSegmentName] = useState("");
 
     const addSchemaHandler = () => {
-        let isCheckRenderList = renderList.map((item) => item.label === onChangeValue);
-        let isInputsval = schemaList.filter((item) => item.label === onChangeValue);
+        let isCheckRenderList = renderList.map((item) => item.label === schemaName);
+        let isInputsval = schemaList.filter((item) => item.label === schemaName);
 
         if (
           !isCheckRenderList.includes(true) &&
-          onChangeValue !== "" &&
-          onChangeValue !== "undefined"
+          schemaName !== "" &&
+          schemaName !== "undefined"
          ) {
             setRenderList([
             ...renderList,
             { label: isInputsval[0].label, value: isInputsval[0].value }
             ]);
-            setOnChangeValue("");
+            setSchemaName("");
         }
     };
 
     const onChangeHandler = (event, id) => {
         let itemValue = (event.target.value).toLowerCase().split(' ').join('_');
-        const changedValue = renderList.map(item => {
-            if(item.label === id) {
-              return {...item, label : event.target.value, value : itemValue};
-            }
-            else {
-              return item
-            }
-          });
-            setRenderList(changedValue);
+        const changedValue = renderList.map(item =>  item.label === id ? {...item, label : event.target.value, value : itemValue} : item);
+        setRenderList(changedValue);
+    }
+
+    const removeSchemaHandler = (event, id) => {
+        const removeValue = renderList.filter(item => item.label !== id);
+        setRenderList(removeValue);
     }
 
     useEffect(() => {
@@ -84,7 +82,7 @@ const SavingSegment = ({removeSegment, isClicked}) => {
 
         setRenderList(initialList);
         setSegmentName("");
-        setOnChangeValue("");
+        setSchemaName("");
     }
 
   return (
@@ -112,7 +110,7 @@ const SavingSegment = ({removeSegment, isClicked}) => {
                         <option key={filteredItem.label}>{filteredItem.label}</option>
                         ))}
                     </StyledSelect.Select>
-                    <RemoveIcon.Div>
+                    <RemoveIcon.Div onClick={event => removeSchemaHandler(event, item.label)}>
                         <AiOutlineMinus />
                     </RemoveIcon.Div>
                 </Dropdown.Div>
@@ -120,8 +118,8 @@ const SavingSegment = ({removeSegment, isClicked}) => {
         </InputField.Div>
         <InputField.Div>
             <StyledSelect.Select
-                onChange={(e) => setOnChangeValue(e.target.value)}
-                value={onChangeValue}
+                onChange={(e) => setSchemaName(e.target.value)}
+                value={schemaName}
             >
                 <option>Add Schema to segment</option>
                 {schemaList.map((list) => (
