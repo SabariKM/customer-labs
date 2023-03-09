@@ -5,21 +5,22 @@ import { Wrapper, InputField, StyledLabel, StyledInput, FlexDiv, Traits, StyledS
 import { useState, useEffect } from 'react';
 import { AiOutlineMinus } from "react-icons/ai";
 
-const SavingSegment = ({removeSegment, isClicked}) => {
-    const schemaList = [
-        {label: "First Name", value: "first_name"},
-        {label: "Last Name", value: "last_name"},
-        {label: "Gender", value: "gender"},
-        {label: "Age", value: "age"},
-        {label: "Account Name", value: "account_name"},
-        {label: "City", value: "city"},
-        {label: "State", value: "state"}
-    ];
+const schemaList = [
+    {label: "First Name", value: "first_name"},
+    {label: "Last Name", value: "last_name"},
+    {label: "Gender", value: "gender"},
+    {label: "Age", value: "age"},
+    {label: "Account Name", value: "account_name"},
+    {label: "City", value: "city"},
+    {label: "State", value: "state"}
+];
 
-    const initialList = [
-        {label: "First Name", value: "first_name"},
-        {label: "Account Name", value: "account_name"}
-    ];
+const initialList = [
+    {label: "First Name", value: "first_name"},
+    {label: "Account Name", value: "account_name"}
+];
+
+const SavingSegment = ({removeSegment, isMounted}) => {
 
     const [renderList, setRenderList] = useState(initialList);
     const [filteredList, setFilteredList] = useState(schemaList);
@@ -49,7 +50,7 @@ const SavingSegment = ({removeSegment, isClicked}) => {
         setRenderList(changedValue);
     }
 
-    const removeSchemaHandler = (event, id) => {
+    const removeSchemaHandler = (id) => {
         const removeValue = renderList.filter(item => item.label !== id);
         setRenderList(removeValue);
     }
@@ -62,31 +63,33 @@ const SavingSegment = ({removeSegment, isClicked}) => {
     );
 
     const submitHandler = () => {
-        let schemas = renderList.map(list => {
-                        let obj = {};
-                        obj[list.value]=list.label
-                        return obj;
-                    });
-        let data = {
-            "segment_name": segmentName,
-            "schema": schemas
+        if(renderList.length > 0) {
+            let schemas = renderList.map(list => {
+                let obj = {};
+                obj[list.value]=list.label
+                return obj;
+            });
+            let data = {
+                "segment_name": segmentName,
+                "schema": schemas
+            }
+
+            let url = 'https://webhook.site/eb3c59f0-5d0a-406a-a172-71cacc6523db';
+            fetch(url, {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify(data),
+                headers: {"Content-type":"application/json;charset=UTF-8"},
+            });
+
+            setRenderList(initialList);
+            setSegmentName("");
+            setSchemaName("");
         }
-
-        let url = '	https://webhook.site/eb3c59f0-5d0a-406a-a172-71cacc6523db';
-        fetch(url, {
-            method: "POST",
-            mode: "no-cors",
-            body: JSON.stringify(data),
-            headers: {"Content-type":"application/json;charset=UTF-8"},
-        });
-
-        setRenderList(initialList);
-        setSegmentName("");
-        setSchemaName("");
     }
 
   return (
-    <Wrapper.Div isClicked={isClicked}>
+    <Wrapper.Div isMounted={isMounted}>
         <Header headerValue={'Saving Segment'} />
         <InputField.Div>
             <StyledLabel.Label>Enter the Name of the Segment</StyledLabel.Label>
@@ -110,7 +113,7 @@ const SavingSegment = ({removeSegment, isClicked}) => {
                         <option key={filteredItem.label}>{filteredItem.label}</option>
                         ))}
                     </StyledSelect.Select>
-                    <RemoveIcon.Div onClick={event => removeSchemaHandler(event, item.label)}>
+                    <RemoveIcon.Div onClick={() => removeSchemaHandler(item.label)}>
                         <AiOutlineMinus />
                     </RemoveIcon.Div>
                 </Dropdown.Div>

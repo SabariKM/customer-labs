@@ -1,4 +1,22 @@
-import styled from "styled-components";
+import styled, {keyframes, css} from "styled-components";
+
+const inAnimation = keyframes`
+    0% {
+      right: -250px;
+    }
+    100% {
+      right: 0;
+    }
+`
+
+const outAnimation = keyframes`
+    0% {
+      right: 0;
+    }
+    100% {
+      right: -500px;
+    }
+`
 
 export const Wrapper = {Div: styled.div`
     width: 30%;
@@ -9,6 +27,8 @@ export const Wrapper = {Div: styled.div`
     right: 0;
     z-index: 2;
     overflow: auto;
+    animation-name: ${(props) => props.isMounted ? css`${inAnimation}` : css`${outAnimation}`};
+    animation-duration: .5s;
 
     ::-webkit-scrollbar {
         width: 5px;
