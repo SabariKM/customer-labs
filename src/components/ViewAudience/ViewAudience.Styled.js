@@ -22,7 +22,11 @@ export const Styled = {Button: styled.button`
     position: relative;
     z-index: 2;
     background-color: transparent;
-    transition: all .5s ease-in;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -ms-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
     &:after {
         content: '';
         position: absolute;
@@ -57,4 +61,3 @@ export const Styled = {Button: styled.button`
         transition: all .3s ease-out;
     }
 `}
-
